@@ -4,6 +4,7 @@
 #include <ccspi.humidity>
 #include <string.humidity>
 #include "utility/debug.humidity"
+#include <LiquidCrystal_I2C.h> 
 
 #define DHTPIN          8
 #define DHTTYPE         DHT11
@@ -28,11 +29,21 @@
 
 DHT dht(DHTPIN, DHTTYPE);
 Adafruit_CC3000 WiDo = Adafruit_CC3000(WiDo_CS, WiDo_IRQ, WiDo_VBAT, SPI_CLOCK_DIVIDER);
+LiquidCrystal_I2C lcd(0x3f,16,2); 
 
 void setup(){
   Serial.begin(115200);
   pinMode(PIN_MQ, INPUT);
   dht.begin();
+
+  lcd.init();
+  lcd.backlight();
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("==> HOLA <=="); 
+  lcd.setCursor (0,1);
+  lcd.print("==> MUNDO <");
+  lcd.display();
 
   if (!WiDo.begin()) {
     while(1);
