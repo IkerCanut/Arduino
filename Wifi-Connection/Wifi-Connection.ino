@@ -40,22 +40,24 @@ Adafruit_CC3000 WiDo = Adafruit_CC3000(WiDo_CS, WiDo_IRQ, WiDo_VBAT, SPI_CLOCK_D
 LiquidCrystal_I2C lcd(0x3f,16,2); 
 
 void setup(){
-  pinMode(PIN_MQ, INPUT);
-  dht.begin();
-
-  printLCD("Initializing Wido");
-
   lcd.init();
   lcd.backlight();
+  
+  printLCD("Initializing Wido");
 
   if (!WiDo.begin()) {
-    while(1);
     printLCD("Check your wiring.");
+    while(1);
   }  
+  
+  pinMode(PIN_MQ, INPUT);
+  dht.begin();
+  
+  printLCD("Trying to connect to the Router");
 
   if (!WiDo.connectToAP(WLAN_SSID, WLAN_PASS, WLAN_SECURITY)) {
-    while(1);
     printLCD("Check WLAN_SSID and WLAN_PASS");
+    while(1);
   }
 
   printLCD("Router Connected!");
@@ -72,17 +74,26 @@ void loop() {
     return;
   }
   
+  char bufferHT[50];
+  sprintf(bufferHT, "Humidity: %d    Temperature: %d", humidity, temperature);
+  printLCD(bufferHT);
+  
   static Adafruit_CC3000_Client tcpClient;
   static unsigned long heartRate = millis();
 
   if(!tcpClient.connected()) {
     tcpClient.close();
 
-    uint32_t ip = WiDo.IP2U32(IP1, IP2, IP3, IP4);
-    tcpClient = WiDo.connectTCP(ip, PORT);
+    printLCD("Connecting to the TCPServer");
+    
+    uint32_t ip = WiDo.IP2U32(192, 168, 90, 129);
+    tcpClient = WiDo.connectTCP(ip, 53888);
+
     
     if(!tcpClient.connected()){
       printLCD("Error connecting to the server");
+      delay(1000);
+      return;
     }
   }
   
@@ -100,7 +111,7 @@ void printLCD(char* msg){
     char msg1[17], msg2[17];
     strncpy(msg1, msg, 16);
     msg1[16] = '\0';
-    strncpy(msg1, msg, 16);
+    strncpy(msg2, msg+16, 16);
     msg2[16] = '\0';
 
     lcd.clear();
