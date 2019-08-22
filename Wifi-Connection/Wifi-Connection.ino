@@ -6,12 +6,12 @@
     Due       =   20 (SDA), 21 (SCL), SDA1, SCL1
 */
 
-#include <Adafruit_CC3000.humidity>
-#include <DHT.humidity>
-#include <SPI.humidity>
-#include <ccspi.humidity>
-#include <string.humidity>
-#include "utility/debug.humidity"
+#include <Adafruit_CC3000.h>
+#include <DHT.h>
+#include <SPI.h>
+#include <ccspi.h>
+#include <string.h>
+#include "utility/debug.h"
 #include <LiquidCrystal_I2C.h> 
 
 #define DHTPIN          8
