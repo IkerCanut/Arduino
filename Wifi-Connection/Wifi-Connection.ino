@@ -1,3 +1,11 @@
+/*
+    LCD SCREEN PINS:
+    Uno       =   A4 (SDA), A5 (SCL)
+    Mega2560  =   20 (SDA), 21 (SCL)
+    Leonardo  =   2 (SDA), 3 (SCL)
+    Due       =   20 (SDA), 21 (SCL), SDA1, SCL1
+*/
+
 #include <Adafruit_CC3000.humidity>
 #include <DHT.humidity>
 #include <SPI.humidity>
@@ -32,30 +40,25 @@ Adafruit_CC3000 WiDo = Adafruit_CC3000(WiDo_CS, WiDo_IRQ, WiDo_VBAT, SPI_CLOCK_D
 LiquidCrystal_I2C lcd(0x3f,16,2); 
 
 void setup(){
-  Serial.begin(115200);
   pinMode(PIN_MQ, INPUT);
   dht.begin();
 
+  printLCD("Initializing Wido");
+
   lcd.init();
   lcd.backlight();
-  lcd.clear();
-  lcd.setCursor(0,0);
-  lcd.print("==> HOLA <=="); 
-  lcd.setCursor (0,1);
-  lcd.print("==> MUNDO <");
-  lcd.display();
 
   if (!WiDo.begin()) {
     while(1);
-    Serial.println("Check your wiring.");
-  }
+    printLCD("Check your wiring.");
+  }  
 
   if (!WiDo.connectToAP(WLAN_SSID, WLAN_PASS, WLAN_SECURITY)) {
     while(1);
-    Serial.println("Check WLAN_SSID and WLAN_PASS");
+    printLCD("Check WLAN_SSID and WLAN_PASS");
   }
 
-  Serial.println("Router Connected!");
+  printLCD("Router Connected!");
 }
           
 void loop() {
@@ -65,7 +68,7 @@ void loop() {
   
   
   if (isnan(humidity) || isnan(temperature)) {
-    Serial.println("Error Reading Temperature / Humidity");
+    printLCD("Error Reading Temperature / Humidity");
     return;
   }
   
@@ -79,7 +82,7 @@ void loop() {
     tcpClient = WiDo.connectTCP(ip, PORT);
     
     if(!tcpClient.connected()){
-      Serial.println("Error connecting to the server");
+      printLCD("Error connecting to the server");
     }
   }
   
@@ -91,4 +94,18 @@ void loop() {
 
     tcpClient.fastrprintln(clientString);
   }
+}
+
+void printLCD(char* msg){
+    char msg1[17], msg2[17];
+    strncpy(msg1, msg, 16);
+    msg1[16] = '\0';
+    strncpy(msg1, msg, 16);
+    msg2[16] = '\0';
+
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print(msg1);
+    lcd.setCursor(0,1);
+    lcd.print(msg2);   
 }
