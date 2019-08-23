@@ -6,10 +6,10 @@
 
 ## How to
 
-You ought to connect via bluetooth to the Arduino, in this case the HC-05 is used.
-Then, if you pair it with a phone, and open a remote terminal in there, you can send commands to it, for example:
+In this example, the HC-05 bluetooth module is used. You ought to connect via bluetooth to the Arduino.
+Once you're connected, you need to open a remote terminal, then you can send commands to it:
 
-- **Y** -> Turns the Yellow led on.
-- **R** -> Turns the Red led on.
-- **G** -> Turns the Green led on.
+- **Y** -> Toggle the Yellow led.
+- **R** -> Toggle the Red led.
+- **G** -> Toggle the Green led.
 - **P** -> A very simple Pattern with the leds :D
