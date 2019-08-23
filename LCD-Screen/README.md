@@ -4,6 +4,6 @@
 
 ![Conexion Luces Bluetooth](LCD-Screen.png)
 
-## How to
+## Summary
 
 This is a very simple hello world in a LCD Screen.
