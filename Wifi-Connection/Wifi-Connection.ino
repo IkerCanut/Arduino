@@ -86,8 +86,8 @@ void loop() {
 
     printLCD("Connecting to the TCPServer");
     
-    uint32_t ip = WiDo.IP2U32(192, 168, 90, 129);
-    tcpClient = WiDo.connectTCP(ip, 53888);
+    uint32_t ip = WiDo.IP2U32(IP1, IP2, IP3, IP4);
+    tcpClient = WiDo.connectTCP(ip, PORT);
 
     
     if(!tcpClient.connected()){
