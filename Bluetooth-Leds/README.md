@@ -2,7 +2,7 @@
 
 ## Connections
 
-![Conexion Luces Bluetooth](Bluetooth-Leds.png)
+![Conexion Luces Bluetooth](Bluetooth-Leds.jpeg)
 
 ## How to
 
